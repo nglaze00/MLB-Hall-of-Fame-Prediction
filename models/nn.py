@@ -1,16 +1,17 @@
 import pandas as pd
 import tensorflow.compat.v1 as tf
+
 tf.compat.v1.disable_eager_execution()
 import numpy as np
 import layer
 import metrics
+
 flags = tf.app.flags
 FLAGS = flags.FLAGS
 
 
-
 class MLB:
-    def __init__(self, placeholders, layers, input_dim, **kwargs):
+    def __init__(self, placeholders, layers, input_dim, output_dim, **kwargs):
 
         self.vars = {}
         self.placeholders = placeholders
@@ -19,7 +20,7 @@ class MLB:
         self.num_layers = layers
         self.inputs = placeholders['features']
         self.input_dim = input_dim
-        self.output_dim = 1
+        self.output_dim = output_dim
 
         self.outputs = None
 
@@ -39,7 +40,7 @@ class MLB:
                                        act=tf.nn.relu,
                                        dropout=True))
 
-        for _ in range(self.num_layers -2):
+        for _ in range(self.num_layers - 2):
             self.layers.append(layer.Dense(input_dim=FLAGS.hidden1,
                                            output_dim=FLAGS.hidden1,
                                            placeholders=self.placeholders,
@@ -51,8 +52,6 @@ class MLB:
                                        placeholders=self.placeholders,
                                        act=tf.nn.relu,
                                        dropout=True))
-
-
 
     def build(self):
         """ Wrapper for _build() """
@@ -78,7 +77,6 @@ class MLB:
 
         self.opt_op2 = self.optimizer.compute_gradients(self.loss, variables)[1]
 
-
         self.opt_op = self.optimizer.minimize(self.loss)
 
     def _loss(self):
@@ -88,12 +86,10 @@ class MLB:
             self.loss += FLAGS.weight_decay * tf.nn.l2_loss(var)
 
         # Cross entropy error
-        self.loss += metrics.mean_squared_error(self.outputs, self.placeholders['labels'],
-                                                          self.placeholders['labels_mask'])
+        self.loss += metrics.softmax_cross_entropy(self.outputs, self.placeholders['labels'])
 
     def _accuracy(self):
-        self.accuracy = metrics.accuracy(self.outputs, self.placeholders['labels'],
-                                                self.placeholders['labels_mask'])
+        self.accuracy = metrics.accuracy(self.outputs, self.placeholders['labels'])
 
     def predict(self):
         return self.outputs

@@ -13,6 +13,5 @@ def accuracy(preds, labels):
 
 
 def mean_squared_error(preds, labels):
-    """Softmax cross-entropy loss with masking."""
     loss = tf.losses.mean_squared_error(labels=labels, predictions=preds)
     return tf.reduce_mean(loss)
