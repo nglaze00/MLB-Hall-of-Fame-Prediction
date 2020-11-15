@@ -95,3 +95,4 @@ class MLB:
 
     def predict(self):
         return self.outputs
+
