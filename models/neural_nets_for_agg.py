@@ -38,7 +38,7 @@ flags.DEFINE_string('save_name', './agg_nn/agg_nn_model', 'Path for saving model
 flags.DEFINE_integer('layers', 3, 'number of layers')
 
 # Load the data
-test_data = np.load("../data_ready/agg/X_test.npy")
+test_data = np.load("../data_ready/agg/X_test.npy")W
 train_data = np.load("../data_ready/agg/X_train.npy")
 test_labels = 1-np.load("../data_ready/agg/y_test_1hot.npy")
 train_labels = 1-np.load("../data_ready/agg/y_train_1hot.npy")
