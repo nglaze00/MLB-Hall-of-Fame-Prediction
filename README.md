@@ -1,5 +1,7 @@
 # MLB-Hall-of-Fame-Prediction
-Predicting whether a player will make the Hall of Fame, based on their stats so far
+Predicting whether a player will make the Hall of Fame, based on their stats so far. Uses LSTMs and time series data to get 96% accuracy on retired players, and 89% on all players.
+
+Read our paper [here](Predicting_MLB_Hall_of_Fame_Players_Paper.pdf).
 
 ## Repository outline:
 * data/: raw tables
